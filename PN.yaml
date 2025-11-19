@@ -1,0 +1,55 @@
+new_variables:
+  pf_mask: ak.ones_like(pion_eta)
+  sv_mask: ak.ones_like(tau_eta)
+
+preprocess:
+  method: manual
+
+inputs:
+  pf_points:
+    length: 6
+    vars:
+      - [pion_eta, null]
+      - [pion_phi, null]
+
+  pf_features:
+    length: 6
+    vars:
+      - [pion_px, null]
+      - [pion_py, null]
+      - [pion_pz, null]
+      - [pion_q, null]
+      - [pion_d0, null]
+      - [pion_z0, null]
+
+  pf_mask:
+    length: 6
+    vars: 
+      - [pf_mask, null]
+  
+  sv_points:
+    length: 2
+    vars:
+      - [tau_eta, null]
+      - [tau_phi, null]
+  
+  sv_features:
+    length: 2
+    vars:
+      - [tau_x, null]
+      - [tau_y, null]
+      - [tau_z, null]
+      - [tau_q, null]
+      - [tau_chi2, null]
+      - [tau_thrustangle, null]
+
+  sv_mask:
+    length: 2
+    vars: 
+      - [sv_mask, null]
+
+labels:
+  type: simple
+  value: [label_bkg, label_sig]
+
+treename : events
