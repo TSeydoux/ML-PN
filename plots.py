@@ -13,24 +13,24 @@ import numpy as np
 import pandas as pd
 import pickle as pkl
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mtick
 from tensorboard.backend.event_processing import event_accumulator
-from matplotlib.ticker import ScalarFormatter
+from matplotlib.ticker import ScalarFormatter, FuncFormatter
 from sklearn.metrics import roc_curve, auc
 
 
 
 
 
-def trainingPlots(logdir, directory):
+def trainingPlots(directory):
     """
         Creates loss and accuracy plots for PN, from the last events file in date.
 
         Inputs:
-            logdir: str, path to the 'runs' folder that stores TensorBoard events.
             directory: str, path to the model directory. I/O files are read/wrote in this directory using standardized names.
     """
 
-    event_files = glob.glob(os.path.join(logdir, "**", "events.*"), recursive=True)
+    event_files = glob.glob(os.path.join("runs", "**", "events.*"), recursive=True)   # Pass a relative path, to run on HTCondor
     if not event_files:
         raise FileNotFoundError("No event files found.")
     event_file = max(event_files, key=os.path.getmtime)   # Catch the last modified file
@@ -68,6 +68,7 @@ def trainingPlots(logdir, directory):
     ax.set_ylabel('Accuracy (%)', fontsize=20)
     ax.legend(fontsize=20)
     ax.set_xlim([df_acc_train['step'].min() - 0.5, df_acc_train['step'].max() + 0.5])
+    ax.yaxis.set_major_formatter(mtick.FuncFormatter(lambda y, _: f"{y*100:.1f}"))
     plt.grid(alpha=0.4, which="both")
     ax.tick_params(axis='both', which='major', labelsize=15)
     fig.savefig(f"{directory}/PN_accuracy.pdf")
@@ -143,7 +144,7 @@ def evaluationPlots(directory):
 
     plt.xlabel("1 - Score", fontsize=20)
     plt.ylabel("Efficiency", fontsize=20)
-    plt.legend(loc="lower left", fontsize=20)
+    plt.legend(loc="best", fontsize=20)
     ax.tick_params(axis='both', which='major', labelsize=15)
     plt.xlim(0, 4.1)
     plt.xticks([0, 1, 2, 3, 4, 5], ["$10^0$", "$10^{-1}$", "$10^{-2}$", "$10^{-3}$", "$10^{-4}$", "$10^{-5}$"])   # Might want to change the number of ticks to fit to the data
@@ -192,10 +193,10 @@ def evaluationPlots(directory):
 
     plt.xlabel("1 - Score", fontsize=20)
     plt.ylabel("Efficiency", fontsize=20)
-    plt.legend(loc="lower left", fontsize=20)
+    plt.legend(loc="best", fontsize=20)
     ax.tick_params(axis='both', which='major', labelsize=15)
     plt.xlim(0, 4.1)
-    plt.xticks([0, 1, 2, 3, 4, 5], ["$10^0$", "$10^{-1}$", "$10^{-2}$", "$10^{-3}$", "$10^{-4}$", "$10^{-4}$"])   # Might want to change the number of ticks to fit to the data
+    plt.xticks([0, 1, 2, 3, 4, 5], ["$10^0$", "$10^{-1}$", "$10^{-2}$", "$10^{-3}$", "$10^{-4}$", "$10^{-5}$"])   # Might want to change the number of ticks to fit to the data
     plt.yscale('log')
     ymin,ymax = plt.ylim()
     plt.ylim(10e-6, 2)   # Might want to change the first limit to fit to the data
@@ -249,10 +250,9 @@ def ROC(directory):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--logdir", required=True, help="Path to training logs")   # Modify paths in the corresponding .sh if needed
-    parser.add_argument("--directory", required=True, help="Path to model directory")
+    parser.add_argument("--directory", required=True, help="Path to model directory")   # Modify paths in the corresponding .sh if needed
     args = parser.parse_args()
 
-    trainingPlots(logdir=args.logdir, directory=args.directory)
+    trainingPlots(directory=args.directory)
     evaluationPlots(directory=args.directory)
     ROC(directory=args.directory)
