@@ -1,3 +1,7 @@
+### Defines the variables and parameters of variables used for training.
+
+
+
 new_variables:
   pf_mask: ak.ones_like(pion_eta)
   sv_mask: ak.ones_like(tau_eta)
