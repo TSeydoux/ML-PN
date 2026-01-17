@@ -1,6 +1,5 @@
 ### Script that reads branches in ROOT files and reconstruct data for training with the appropriate rescaling.
 ### It plots all the branches used for training (input variables) to check that the rescaling is right.
-### You may want to change paths.
 
 
 
