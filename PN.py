@@ -1,3 +1,7 @@
+### Config file for the ParticleNet model
+
+
+
 import torch
 from weaver.utils.logger import _logger
 from weaver.nn.model.ParticleNet import ParticleNetTagger
