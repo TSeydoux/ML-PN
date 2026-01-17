@@ -1,4 +1,7 @@
 #!/bin/bash
+
+### Script to run the training of ParticleNet. You can set different training variables and parameters here. You may want to change paths.
+
 source /afs/cern.ch/work/t/thseydou/public/Miniconda/etc/profile.d/conda.sh
 conda activate weaver
 
