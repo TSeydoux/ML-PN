@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### Script to run 'plots.py'. you may want to change paths
+### Script to run 'plots.py'. You may want to change paths
 
 source /afs/cern.ch/work/t/thseydou/public/Miniconda/etc/profile.d/conda.sh    # Activates conda
 conda activate weaver                                                          # Activates the specific conda environment
