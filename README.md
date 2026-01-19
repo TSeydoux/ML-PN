@@ -58,14 +58,20 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 Data preparation is handled by the `data_prep.py` script.
 
-To run the preprocessing step, execute the associated shell script:
+To run the preprocessing step on a system with HTCondor, use the provided submission file:
 ```
-./data_prep.sh
+condor_submit data_prep_PN.sub
+```
+You may want to adapt the resource requests to the size of your data and the PN configuration.
+
+Alternatively, you can execute the shell script directly:
+```
+./PN/data_prep.sh
 ```
 You might need the permission first:
 ```
 chmod +x data_prep.sh
-./data_prep.sh
+./PN/data_prep.sh
 ```
 This step reads ROOT files, preprocesses the data, rescale it, and stores it in a format suitable for training. You may want to change paths in `data_prep.py` and `data_prep.sh` first.
 
@@ -73,9 +79,15 @@ This step reads ROOT files, preprocesses the data, rescale it, and stores it in 
 ### 2. Training the model
 
 Configuration of data is done in `PN.yaml` and hyperparameters of the model are set in `PN.py`.
-Training parameters (e.g. learning rate, batch size, number of epochs) and paths can be configured in `train_PN.sh`. To start training, run:
+Training parameters (e.g. learning rate, batch size, number of epochs) and paths can be configured in `train_PN.sh`. To start training on a system with HTCondor, use the provided submission file:
 ```
-./train_PN.sh
+condor_submit train_PN.sub
+```
+You may want to adapt the resource requests to the size of your data and the PN configuration.
+
+Alternatively, you can execute the shell script directly:
+```
+./PN/train_PN.sh
 ```
 
 This script will:
@@ -89,7 +101,7 @@ This script will:
 
 The appearance and layout of the plots can be modified in `plots.py`. After making changes, regenerate the plots by running:
 ```
-./plots_PN.sh
+./PN/plots_PN.sh
 ```
 You may want to change path in `plots_PN.sh` when running it standalone.
 
