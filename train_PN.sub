@@ -1,0 +1,20 @@
+executable = PN/train_PN.sh
+output     = PN/htcondor/PN_20_2.out
+error      = PN/htcondor/PN_20_2.err
+log        = PN/htcondor/PN_20_2.log
+
+transfer_input_files = PN
+
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_output_files = runs
+transfer_output_remaps  = "runs = PN/runs"
+
+request_CPUs = 3
+request_GPUs = 1
+request_memory = 12GB
+request_disk = 6GB
+gpus_minimum_memory = 12GB
++JobFlavour = "longlunch"
+
+queue

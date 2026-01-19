@@ -1,0 +1,13 @@
+executable = PN/data_prep.sh
+output     = PN/htcondor/PN_data_prep.out
+error      = PN/htcondor/PN_data_prep.err
+log        = PN/htcondor/PN_data_prep.log
+
+transfer_input_files = PN
+
+request_CPUs = 1
+request_memory = 8GB
+request_disk = 4GB
++JobFlavour = "espresso"
+
+queue
